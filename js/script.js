@@ -10,10 +10,6 @@ const searchHTML = `  <form action="#" method="get">
   </form>`
 header.insertAdjacentHTML('beforeend', searchHTML)
 
-function handleModalNavigation(user) {
-  showModal(user)
-}
-
 function showModal(user) {
   const modalContainer = document.createElement('div')
   modalContainer.classList.add('modal-container')
@@ -64,11 +60,13 @@ function showModal(user) {
   const prevButton = modalContainer.querySelector('#modal-prev')
   prevButton.addEventListener('click', () => {
     handleModalNavigation('prev')
+    modalContainer.remove()
   })
 
   const nextButton = modalContainer.querySelector('#modal-next')
-  nextButton.addEventListener('click', () => {
+  nextButton.addEventListener('click', (e) => {
     handleModalNavigation('next')
+    modalContainer.remove()
   })
 
   // Close modal when close button is clicked
@@ -76,6 +74,18 @@ function showModal(user) {
   closeButton.addEventListener('click', () => {
     modalContainer.remove() // Remove the modal from the DOM
   })
+}
+
+// Function to handle modal navigation
+function handleModalNavigation(direction) {
+  if (direction === 'next') {
+    currentIndex = (currentIndex + 1) % users.length // Increment index or loop back to 0 if at the end
+  } else if (direction === 'prev') {
+    currentIndex = (currentIndex - 1 + users.length) % users.length // Decrement index or loop back to the end if at 0
+  }
+
+  const user = users[currentIndex]
+  showModal(user)
 }
 
 let users = [] // Array to store the fetched users
@@ -116,7 +126,7 @@ function generateHTML(user) {
 
   // Add event listener to each card
   card.addEventListener('click', () => {
-    handleModalNavigation(user)
+    showModal(user)
   })
 
   gallery.appendChild(card)
@@ -140,15 +150,3 @@ searchInput.addEventListener('input', () => {
     }
   })
 })
-
-// Function to handle modal navigation
-function handleModalNavigation(direction) {
-  if (direction === 'next') {
-    currentIndex = (currentIndex + 1) % users.length // Increment index or loop back to 0 if at the end
-  } else if (direction === 'prev') {
-    currentIndex = (currentIndex - 1 + users.length) % users.length // Decrement index or loop back to the end if at 0
-  }
-
-  const user = users[currentIndex]
-  showModal(user)
-}
