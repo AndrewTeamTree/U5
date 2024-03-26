@@ -10,6 +10,15 @@ const searchHTML = `  <form action="#" method="get">
   </form>`
 header.insertAdjacentHTML('beforeend', searchHTML)
 
+fetch('http://localhost:3000/fetch-random-users')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // Process the data as needed
+    })
+    .catch(error => console.error('Error fetching data from proxy server:', error));
+
+
 function showModal(user) {
   const modalContainer = document.createElement('div')
   modalContainer.classList.add('modal-container')
