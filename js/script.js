@@ -1,7 +1,6 @@
 const randomUserUrl =
   'https://randomuser.me/api/?results=12&inc=dob,name,gender,location,phone,email,picture'
 const gallery = document.getElementById('gallery')
-
 // Add a search bar and select its input and button elements
 const header = document.querySelector('header')
 const searchHTML = `  <form action="#" method="get">
@@ -9,15 +8,6 @@ const searchHTML = `  <form action="#" method="get">
       <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
   </form>`
 header.insertAdjacentHTML('beforeend', searchHTML)
-
-fetch('http://localhost:3000/fetch-random-users')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        // Process the data as needed
-    })
-    .catch(error => console.error('Error fetching data from proxy server:', error));
-
 
 function showModal(user) {
   const modalContainer = document.createElement('div')
@@ -61,10 +51,8 @@ function showModal(user) {
       <button type="button" id="modal-next" class="modal-next btn">Next</button>
     </div>
   `
-
   // Append modal to body
   document.body.appendChild(modalContainer)
-
   // Event listeners for modal navigation buttons
   const prevButton = modalContainer.querySelector('#modal-prev')
   prevButton.addEventListener('click', () => {
@@ -110,14 +98,12 @@ fetch(randomUserUrl)
     displayGallery(users)
   })
   .catch((error) => console.error('Error fetching data:', error))
-
 // Function to display user profiles in the gallery
 function displayGallery(users) {
   users.forEach((user) => {
     generateHTML(user)
   })
 }
-
 // Generate the markup for each profile
 function generateHTML(user) {
   const card = document.createElement('div')
@@ -140,13 +126,11 @@ function generateHTML(user) {
 
   gallery.appendChild(card)
 }
-
 // Add event listener for the search input
 const searchInput = document.getElementById('search-input')
 searchInput.addEventListener('input', () => {
   const currentValue = searchInput.value.trim().toLowerCase()
   const cards = document.querySelectorAll('.card')
-
   cards.forEach((card) => {
     const name = card
       .querySelector('.card-name')
